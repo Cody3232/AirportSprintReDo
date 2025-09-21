@@ -32,6 +32,7 @@ public class Flight {
     public Flight() {
     }
 
+    //Constructor looked messy with so many parameters, hence the different spacing on this one
     public Flight(
             String code,
             String airlineName,
@@ -42,6 +43,7 @@ public class Flight {
     ) {
         this.code = code;
         this.airlineName = airlineName;
+        this.arrivalAirportCode = arrivalAirportCode;
         this.departureAirportCode = departureAirportCode;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
