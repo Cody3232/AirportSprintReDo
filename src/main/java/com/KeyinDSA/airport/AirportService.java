@@ -15,7 +15,7 @@ public class AirportService {
         return (List<Airport>) airportRepository.findAll();
     }
 
-    public Airport getAirportById(int id) {
+    public Airport getAirportById(Long id) {
         return airportRepository.findById(id).orElse(null);
     }
 
@@ -23,8 +23,17 @@ public class AirportService {
         return airportRepository.save(newAirport);
     }
 
-    public void deleteAirportById(int id) {
-        airportRepository.deleteById(id);
+    public Airport updateAirport(Long id, Airport updatedAirport) {
+        return airportRepository.findById(id).map(existing -> {
+            existing.setCode(updatedAirport.getCode());
+            existing.setAirportName(updatedAirport.getAirportName());
+            existing.setCountry(updatedAirport.getCountry());
+            existing.setCity(updatedAirport.getCity());
+            return airportRepository.save(existing);
+        }).orElse(null);
     }
 
+    public void deleteAirportById(Long id) {
+        airportRepository.deleteById(id);
+    }
 }

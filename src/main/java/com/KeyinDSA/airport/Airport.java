@@ -1,42 +1,40 @@
 package com.KeyinDSA.airport;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
+import com.KeyinDSA.city.City;
+import jakarta.persistence.*;
 
 @Entity
 public class Airport {
 
     @Id
-    @SequenceGenerator(
-            name = "airport_sequence",
-            sequenceName = "airport_sequence",
-            allocationSize = 1,
-            initialValue = 1
-    )
-    @GeneratedValue(
-            generator = "airport_sequence"
-    )
-
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String code;
     private String airportName;
-    private String city;
     private String country;
 
-    // Default constructor
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
     public Airport() {}
 
-    public Airport(String code, String airportName, String city, String country) {
+    public Airport(String code, String airportName, String country, City city) {
         this.code = code;
         this.airportName = airportName;
-        this.city = city;
         this.country = country;
+        this.city = city;
     }
 
-    // Getters and Setter for the airport fields
+    // getters and setters
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getCode() {
         return code;
     }
@@ -51,13 +49,6 @@ public class Airport {
         this.airportName = airportName;
     }
 
-    public String getCity() {
-        return city;
-    }
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getCountry() {
         return country;
     }
@@ -65,13 +56,10 @@ public class Airport {
         this.country = country;
     }
 
-    public int getId() {
-        return id;
+    public City getCity() {
+        return city;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setCity(City city) {
+        this.city = city;
     }
 }
-
-
-

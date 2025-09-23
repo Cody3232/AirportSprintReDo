@@ -1,13 +1,15 @@
 package com.KeyinDSA.airport;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.KeyinDSA.city.City;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface AirportRepository extends CrudRepository<Airport, Integer> {
+public interface AirportRepository extends CrudRepository<Airport, Long> {
     Airport findByAirportName(String name);
     Airport findByCode(String code);
-    Airport findByCity(String city);
-    Airport findByCountry(String country);
+    List<Airport> findByCountry(String country);
+    List<Airport> findByCity(City city);
 }

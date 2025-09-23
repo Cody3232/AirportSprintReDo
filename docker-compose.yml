@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: airportdb
+      MYSQL_USER: airportuser
+      MYSQL_PASSWORD: airportpass
+    ports:
+      - "3306:3306"
+    networks:
+      - airport-net
+
+  backend:
+    build: .
+    container_name: airport-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/airportdb
+      SPRING_DATASOURCE_USERNAME: airportuser
+      SPRING_DATASOURCE_PASSWORD: airportpass
+    networks:
+      - airport-net
+
+networks:
+  airport-net:

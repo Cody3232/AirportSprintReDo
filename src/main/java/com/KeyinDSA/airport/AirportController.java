@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
-
+@CrossOrigin(origins = "http://localhost:5173")
 public class AirportController {
 
     @Autowired
@@ -20,13 +19,12 @@ public class AirportController {
     }
 
     @GetMapping("/airport/{id}")
-    public ResponseEntity<Airport> getAirportById(@PathVariable int id) {
+    public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
         Airport airport = airportService.getAirportById(id);
         if (airport == null) {
             return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(airport);
         }
+        return ResponseEntity.ok(airport);
     }
 
     @PostMapping("/airport")
@@ -34,8 +32,17 @@ public class AirportController {
         return airportService.createAirport(airport);
     }
 
+    @PutMapping("/airport/{id}")
+    public ResponseEntity<Airport> updateAirport(@PathVariable Long id, @RequestBody Airport airport) {
+        Airport updated = airportService.updateAirport(id, airport);
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
+    }
+
     @DeleteMapping("/airport/{id}")
-    public void deleteAirportById(@PathVariable int id) {
+    public void deleteAirportById(@PathVariable Long id) {
         airportService.deleteAirportById(id);
     }
 }
