@@ -1,7 +1,12 @@
 package com.KeyinDSA.airport;
 
+import com.KeyinDSA.aircraft.Aircraft;
 import com.KeyinDSA.city.City;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Airport {
@@ -14,9 +19,21 @@ public class Airport {
     private String airportName;
     private String country;
 
+    // Airport belongs to one City
     @ManyToOne
     @JoinColumn(name = "city_id")
+    @JsonIgnoreProperties({"airports"})
     private City city;
+
+    // An Airport can have many Aircraft
+    @ManyToMany
+    @JoinTable(
+            name = "airport_aircraft",
+            joinColumns = @JoinColumn(name = "airport_id"),
+            inverseJoinColumns = @JoinColumn(name = "aircraft_id")
+    )
+    @JsonIgnoreProperties({"airports", "airline", "passengers"})
+    private Set<Aircraft> aircraft = new HashSet<>();
 
     public Airport() {}
 
@@ -61,5 +78,12 @@ public class Airport {
     }
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public Set<Aircraft> getAircraft() {
+        return aircraft;
+    }
+    public void setAircraft(Set<Aircraft> aircraft) {
+        this.aircraft = aircraft;
     }
 }

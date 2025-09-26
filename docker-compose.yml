@@ -10,6 +10,8 @@ services:
       MYSQL_PASSWORD: airportpass
     ports:
       - "3306:3306"
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
     networks:
       - airport-net
 

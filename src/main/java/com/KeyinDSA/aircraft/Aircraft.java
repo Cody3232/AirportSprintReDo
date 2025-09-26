@@ -3,7 +3,7 @@ package com.KeyinDSA.aircraft;
 import com.KeyinDSA.airline.Airline;
 import com.KeyinDSA.airport.Airport;
 import com.KeyinDSA.passenger.Passenger;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -22,19 +22,26 @@ public class Aircraft {
 
     @ManyToOne
     @JoinColumn(name = "airline_id")
+    @JsonIgnoreProperties({"aircraft", "hibernateLazyInitializer", "handler"})
     private Airline airline;
 
     @ManyToOne
     @JoinColumn(name = "departure_airport_id")
+    @JsonIgnoreProperties({"aircraft", "city", "hibernateLazyInitializer", "handler"})
     private Airport departureAirport;
 
     @ManyToOne
     @JoinColumn(name = "arrival_airport_id")
+    @JsonIgnoreProperties({"aircraft", "city", "hibernateLazyInitializer", "handler"})
     private Airport arrivalAirport;
 
     @ManyToMany(mappedBy = "aircraft")
-    @JsonManagedReference
+    @JsonIgnoreProperties({"aircraft", "city", "hibernateLazyInitializer", "handler"})
     private Set<Passenger> passengers = new HashSet<>();
+
+    @ManyToMany(mappedBy = "aircraft")
+    @JsonIgnoreProperties({"aircraft", "city", "hibernateLazyInitializer", "handler"})
+    private Set<Airport> airports = new HashSet<>();
 
     public Aircraft() {}
 
@@ -103,5 +110,12 @@ public class Aircraft {
     }
     public void setPassengers(Set<Passenger> passengers) {
         this.passengers = passengers;
+    }
+
+    public Set<Airport> getAirports() {
+        return airports;
+    }
+    public void setAirports(Set<Airport> airports) {
+        this.airports = airports;
     }
 }

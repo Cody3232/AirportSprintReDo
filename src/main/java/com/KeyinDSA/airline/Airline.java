@@ -1,6 +1,11 @@
 package com.KeyinDSA.airline;
 
+import com.KeyinDSA.aircraft.Aircraft;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Airline {
@@ -12,6 +17,10 @@ public class Airline {
     private String code;
     private String name;
     private String country;
+
+    @OneToMany(mappedBy = "airline", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"airline", "departureAirport", "arrivalAirport", "passengers", "airports"})
+    private Set<Aircraft> aircraft = new HashSet<>();
 
     public Airline() {}
 
@@ -48,5 +57,12 @@ public class Airline {
     }
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Set<Aircraft> getAircraft() {
+        return aircraft;
+    }
+    public void setAircraft(Set<Aircraft> aircraft) {
+        this.aircraft = aircraft;
     }
 }

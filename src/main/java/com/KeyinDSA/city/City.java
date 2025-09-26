@@ -1,6 +1,11 @@
 package com.KeyinDSA.city;
 
+import com.KeyinDSA.airport.Airport;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class City {
@@ -12,6 +17,11 @@ public class City {
     private String name;
     private String state;
     private int population;
+
+    // A City has many Airports
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<Airport> airports = new HashSet<>();
 
     public City() {}
 
@@ -32,7 +42,7 @@ public class City {
     public String getName() {
         return name;
     }
-    public void setName(String name) {
+    public void setName(String name){
         this.name = name;
     }
 
@@ -48,5 +58,12 @@ public class City {
     }
     public void setPopulation(int population) {
         this.population = population;
+    }
+
+    public Set<Airport> getAirports() {
+        return airports;
+    }
+    public void setAirports(Set<Airport> airports) {
+        this.airports = airports;
     }
 }

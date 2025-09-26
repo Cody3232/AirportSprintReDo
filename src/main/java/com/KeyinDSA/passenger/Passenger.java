@@ -2,7 +2,8 @@ package com.KeyinDSA.passenger;
 
 import com.KeyinDSA.aircraft.Aircraft;
 import com.KeyinDSA.city.City;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -19,8 +20,9 @@ public class Passenger {
     private String lastName;
     private String phoneNumber;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "city_id")
+    @JsonIgnoreProperties({"airports"})
     private City city;
 
     @ManyToMany
@@ -29,7 +31,7 @@ public class Passenger {
             joinColumns = @JoinColumn(name = "passenger_id"),
             inverseJoinColumns = @JoinColumn(name = "aircraft_id")
     )
-    @JsonBackReference
+    @JsonManagedReference
     private Set<Aircraft> aircraft = new HashSet<>();
 
     public Passenger() {}
